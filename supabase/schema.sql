@@ -39,5 +39,17 @@ create index if not exists help_requests_idx on public.help_requests (service, s
 alter table public.donor_applications enable row level security;
 alter table public.help_requests enable row level security;
 
--- Public users must not query raw donor PII directly.
--- Add narrowly-scoped RPC/API policies only after the Admin auth flow is enabled.
+-- Public visitors may submit applications, but must not read raw records.
+drop policy if exists "Public can submit donor applications" on public.donor_applications;
+create policy "Public can submit donor applications"
+on public.donor_applications
+for insert
+to anon, authenticated
+with check (true);
+
+drop policy if exists "Public can submit help requests" on public.help_requests;
+create policy "Public can submit help requests"
+on public.help_requests
+for insert
+to anon, authenticated
+with check (true);
