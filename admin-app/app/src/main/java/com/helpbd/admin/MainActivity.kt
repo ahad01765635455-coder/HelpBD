@@ -14,7 +14,7 @@ import android.widget.ProgressBar
 
 class MainActivity : Activity() {
     private lateinit var webView: WebView
-    private lateinit var progress: ProgressBar
+    private lateinit var progressBar: ProgressBar
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +39,8 @@ class MainActivity : Activity() {
         }
         toolbar.addView(homeButton, LinearLayout.LayoutParams(0, -2, 1f))
 
-        progress = ProgressBar(this).apply { visibility = View.GONE }
-        toolbar.addView(progress, LinearLayout.LayoutParams(-2, -2))
+        progressBar = ProgressBar(this).apply { visibility = View.GONE }
+        toolbar.addView(progressBar, LinearLayout.LayoutParams(-2, -2))
 
         webView = WebView(this).apply {
             settings.javaScriptEnabled = true
@@ -55,11 +55,11 @@ class MainActivity : Activity() {
                 }
 
                 override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
-                    progress.visibility = View.VISIBLE
+                    progressBar.setVisibility(View.VISIBLE)
                 }
 
                 override fun onPageFinished(view: WebView?, url: String?) {
-                    progress.visibility = View.GONE
+                    progressBar.setVisibility(View.GONE)
                 }
             }
             webChromeClient = WebChromeClient()
