@@ -18,20 +18,20 @@ module.exports = async (req, res) => {
       if (!/^01\d{9}$/.test(String(body.phone))) return json(res, 400, { error: 'Invalid Bangladesh mobile number' });
       if (!/^\d{17}$/.test(String(body.birth_registration_no))) return json(res, 400, { error: 'Birth Registration Number must be 17 digits' });
 
-      const { error } = await supabase.from('donor_applications').insert({
-        name: String(body.name).trim(),
-        phone: String(body.phone).trim(),
-        dob: body.dob,
-        birth_registration_no: String(body.birth_registration_no).trim(),
-        blood_group: body.blood_group,
-        division: body.division,
-        district: body.district,
-        upazila: body.upazila,
-        union_name: body.union_name
+      const { data, error } = await supabase.rpc('submit_donor_application', {
+        p_name: String(body.name).trim(),
+        p_phone: String(body.phone).trim(),
+        p_dob: body.dob,
+        p_birth_registration_no: String(body.birth_registration_no).trim(),
+        p_blood_group: String(body.blood_group).trim(),
+        p_division: String(body.division).trim(),
+        p_district: String(body.district).trim(),
+        p_upazila: String(body.upazila).trim(),
+        p_union_name: String(body.union_name).trim()
       });
 
       if (error) throw error;
-      return json(res, 201, { ok: true });
+      return json(res, 201, { ok: true, application_id: data, status: 'pending' });
     }
 
     if (req.method === 'GET') {
@@ -42,15 +42,15 @@ module.exports = async (req, res) => {
       const unionName = String(req.query?.union_name || '').trim();
       if (!group || !division || !district || !upazila || !unionName) return json(res, 400, { error: 'Complete search filters are required' });
 
-      const { data, error } = await supabase.from('donor_applications')
-        .select('id,name,phone,blood_group,division,district,upazila,union_name')
-        .eq('status','approved').eq('blood_group',group).eq('division',division)
-        .limit(200);
+      const { data, error } = await supabase.rpc('search_approved_donors', {
+        p_blood_group: group,
+        p_division: division,
+        p_district: district,
+        p_upazila: upazila,
+        p_union_name: unionName
+      });
       if (error) throw error;
-
-      const rank = d => d.union_name===unionName&&d.upazila===upazila&&d.district===district ? 0 : d.upazila===upazila&&d.district===district ? 1 : d.district===district ? 2 : 3;
-      const result = (data || []).sort((a,b)=>rank(a)-rank(b)).map(d=>({...d,match_level:['same_union','same_upazila','same_district','same_division'][rank(d)]}));
-      return json(res, 200, { ok: true, donors: result });
+      return json(res, 200, { ok: true, donors: data || [] });
     }
 
     res.setHeader('Allow','GET, POST');
