@@ -41,21 +41,11 @@ begin
   select h.* into r from public.help_requests h where h.id = p_id for update;
   if r.id is null then raise exception 'Request not found'; end if;
   if r.service not in ('আর্থিক সহায়তা','খাদ্য ও প্রয়োজনীয় সামগ্রী','চিকিৎসা সহায়তা') then raise exception 'Service cannot be published'; end if;
-  if r.status = 'approved' then raise exception 'Request already approved'; end if;
-
-  insert into public.campaigns(
-    request_id,service,title,name,phone,division,district,upazila,union_name,details,amount,image_url,youtube_url,status
-  ) values(
-    r.id,r.service,
-    coalesce(nullif(btrim(p_title),''),r.service || ' - ' || r.name),
-    r.name,r.phone,r.division,r.district,r.upazila,r.union_name,r.details,
-    p_amount,
-    nullif(btrim(coalesce(p_image_url,'')),''),
-    nullif(btrim(coalesce(p_youtube_url,'')),''),
-    'approved'
-  ) returning id into c_id;
-
-  update public.help_requests set status='approved', updated_at=now() where id=r.id;
+  if r.status='approved' then raise exception 'Request already approved'; end if;
+  insert into public.campaigns(request_id,service,title,name,phone,division,district,upazila,union_name,details,amount,image_url,youtube_url,status)
+  values(r.id,r.service,coalesce(nullif(btrim(p_title),''),r.service||' - '||r.name),r.name,r.phone,r.division,r.district,r.upazila,r.union_name,r.details,p_amount,nullif(btrim(coalesce(p_image_url,'')),''),nullif(btrim(coalesce(p_youtube_url,'')),''),'approved')
+  returning campaigns.id into c_id;
+  update public.help_requests set status='approved',updated_at=now() where help_requests.id=r.id;
   return json_build_object('ok',true,'campaign_id',c_id,'request_id',r.id);
 end;
 $$;
@@ -67,7 +57,46 @@ security definer
 set search_path = public
 as $$
 begin
-  delete from public.help_requests where id=p_id;
+  delete from public.help_requests where help_requests.id=p_id;
+  return json_build_object('ok',true,'id',p_id);
+end;
+$$;
+
+create or replace function public.admin_list_campaigns()
+returns table(
+  id uuid,
+  service text,
+  title text,
+  name text,
+  phone text,
+  division text,
+  district text,
+  upazila text,
+  union_name text,
+  details text,
+  amount numeric,
+  image_url text,
+  youtube_url text,
+  status text,
+  created_at timestamptz
+)
+language sql
+security definer
+set search_path = public
+as $$
+  select c.id,c.service,c.title,c.name,c.phone,c.division,c.district,c.upazila,c.union_name,c.details,c.amount,c.image_url,c.youtube_url,c.status,c.created_at
+  from public.campaigns c
+  order by c.created_at desc;
+$$;
+
+create or replace function public.admin_delete_campaign(p_id uuid)
+returns json
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  delete from public.campaigns where campaigns.id=p_id;
   return json_build_object('ok',true,'id',p_id);
 end;
 $$;
@@ -75,9 +104,6 @@ $$;
 grant execute on function public.admin_list_help_requests() to service_role;
 grant execute on function public.admin_approve_help_request(uuid,text,text,text,numeric) to service_role;
 grant execute on function public.admin_delete_help_request(uuid) to service_role;
-
-grant execute on function public.admin_list_help_requests() to anon, authenticated;
-grant execute on function public.admin_approve_help_request(uuid,text,text,text,numeric) to anon, authenticated;
-grant execute on function public.admin_delete_help_request(uuid) to anon, authenticated;
-
+grant execute on function public.admin_list_campaigns() to service_role;
+grant execute on function public.admin_delete_campaign(uuid) to service_role;
 select pg_notify('pgrst','reload schema');
