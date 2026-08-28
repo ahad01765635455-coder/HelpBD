@@ -42,5 +42,52 @@ begin
 end;
 $$;
 
+create or replace function public.search_approved_donors(
+  p_blood_group text,
+  p_division text,
+  p_district text,
+  p_upazila text,
+  p_union_name text
+)
+returns table(
+  id uuid,
+  name text,
+  phone text,
+  blood_group text,
+  division text,
+  district text,
+  upazila text,
+  union_name text,
+  match_level text
+)
+language sql
+security definer
+set search_path = public
+as $$
+  select
+    d.id, d.name, d.phone, d.blood_group, d.division, d.district, d.upazila, d.union_name,
+    case
+      when d.union_name = p_union_name and d.upazila = p_upazila and d.district = p_district and d.division = p_division then 'same_union'
+      when d.upazila = p_upazila and d.district = p_district and d.division = p_division then 'same_upazila'
+      when d.district = p_district and d.division = p_division then 'same_district'
+      when d.division = p_division then 'same_division'
+    end as match_level
+  from public.donor_applications d
+  where d.status = 'approved'
+    and d.blood_group = p_blood_group
+    and d.division = p_division
+  order by
+    case
+      when d.union_name = p_union_name and d.upazila = p_upazila and d.district = p_district then 0
+      when d.upazila = p_upazila and d.district = p_district then 1
+      when d.district = p_district then 2
+      else 3
+    end,
+    d.created_at asc
+  limit 200;
+$$;
+
 revoke all on function public.submit_donor_application(text,text,date,text,text,text,text,text,text) from public;
+revoke all on function public.search_approved_donors(text,text,text,text,text) from public;
 grant execute on function public.submit_donor_application(text,text,date,text,text,text,text,text,text) to anon, authenticated;
+grant execute on function public.search_approved_donors(text,text,text,text,text) to anon, authenticated;
