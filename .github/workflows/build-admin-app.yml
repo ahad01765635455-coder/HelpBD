@@ -29,8 +29,12 @@ jobs:
         with:
           gradle-version: '8.10.2'
 
+      - name: Verify Gradle project
+        working-directory: admin-app
+        run: gradle tasks --no-daemon --stacktrace
+
       - name: Build debug APK
-        run: gradle -p admin-app :app:assembleDebug --no-daemon
+        run: gradle -p admin-app :app:assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
