@@ -8,20 +8,29 @@ function json(res, status, body) {
 module.exports = async (req, res) => {
   try {
     const supabase = getAdminClient();
-    if (req.method === 'POST') {
-      const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-      for (const key of ['service','name','phone','details']) {
-        if (!body[key]) return json(res, 400, { error: `Missing field: ${key}` });
-      }
-      if (!/^01\d{9}$/.test(String(body.phone))) return json(res, 400, { error: 'Invalid Bangladesh mobile number' });
-      const allowed = ['service','name','phone','division','district','upazila','union_name','details'];
-      const row = Object.fromEntries(allowed.filter(k => body[k] !== undefined).map(k => [k, String(body[k]).trim()]));
-      const { data, error } = await supabase.from('help_requests').insert(row).select('id,status,created_at').single();
-      if (error) throw error;
-      return json(res, 201, { ok: true, request: data });
+    if (req.method !== 'POST') {
+      res.setHeader('Allow', 'POST');
+      return json(res, 405, { error: 'Method not allowed' });
     }
-    res.setHeader('Allow', 'POST');
-    return json(res, 405, { error: 'Method not allowed' });
+    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+    for (const key of ['service','name','phone','details']) {
+      if (!body[key]) return json(res, 400, { error: `Missing field: ${key}` });
+    }
+    if (!/^01\d{9}$/.test(String(body.phone))) return json(res, 400, { error: 'Invalid Bangladesh mobile number' });
+
+    const { data, error } = await supabase.rpc('submit_help_request', {
+      p_service: String(body.service).trim(),
+      p_name: String(body.name).trim(),
+      p_phone: String(body.phone).trim(),
+      p_division: String(body.division || '').trim(),
+      p_district: String(body.district || '').trim(),
+      p_upazila: String(body.upazila || '').trim(),
+      p_union_name: String(body.union_name || '').trim(),
+      p_details: String(body.details).trim(),
+      p_amount: body.amount === undefined || body.amount === '' ? null : Number(body.amount)
+    });
+    if (error) throw error;
+    return json(res, 201, { ok: true, request: data, status: 'pending' });
   } catch (err) {
     const status = err.code === 'SUPABASE_NOT_CONFIGURED' ? 503 : 500;
     return json(res, status, { error: err.message });
