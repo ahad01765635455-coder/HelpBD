@@ -53,3 +53,8 @@ on public.help_requests
 for insert
 to anon, authenticated
 with check (true);
+
+-- Table privileges are required in addition to RLS policies.
+grant usage on schema public to anon, authenticated;
+grant insert on table public.donor_applications to anon, authenticated;
+grant insert on table public.help_requests to anon, authenticated;
