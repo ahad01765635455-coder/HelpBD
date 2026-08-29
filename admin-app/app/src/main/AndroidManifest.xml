@@ -3,6 +3,8 @@
     <application
         android:theme="@style/AppTheme"
         android:label="HelpBD Admin"
+        android:icon="@drawable/helpbd_logo"
+        android:roundIcon="@drawable/helpbd_logo"
         android:usesCleartextTraffic="false">
         <activity
             android:name=".MainActivity"
