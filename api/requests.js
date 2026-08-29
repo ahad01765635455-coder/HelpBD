@@ -27,7 +27,9 @@ module.exports = async (req, res) => {
       p_upazila: String(body.upazila || '').trim(),
       p_union_name: String(body.union_name || '').trim(),
       p_details: String(body.details).trim(),
-      p_amount: body.amount === undefined || body.amount === '' ? null : Number(body.amount)
+      p_amount: body.amount === undefined || body.amount === '' ? null : Number(body.amount),
+      p_type: body.type ? String(body.type).trim() : null,
+      p_urgency: body.urgency ? String(body.urgency).trim() : null
     });
     if (error) throw error;
     return json(res, 201, { ok: true, request: data, status: 'pending' });
