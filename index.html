@@ -1,183 +1,98 @@
 <!doctype html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="HelpBD — মানুষের পাশে মানুষ। রক্ত, আর্থিক সহায়তা, খাদ্য, চিকিৎসা, জরুরি সহায়তা, আইনসেবা ও স্বেচ্ছাসেবী নেটওয়ার্ক।">
-  <title>HelpBD — মানুষের পাশে মানুষ</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    :root{--green:#14a568;--green2:#0d7f4e;--ink:#11261e;--muted:#70827b;--cream:#fbfdfb;--card:#ffffff;--line:#deebe3}
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:var(--cream);color:var(--ink);font-family:'Hind Siliguri',sans-serif;overflow-x:hidden}
-    a{text-decoration:none;color:inherit}
-    .hb-nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 5%;background:rgba(7,24,18,.86);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.08);color:#fff}
-    .hb-brand{display:flex;align-items:center;gap:10px;font:800 23px Inter,sans-serif}
-    .hb-brand img{width:40px;height:40px;border-radius:12px;object-fit:cover;box-shadow:0 8px 24px rgba(34,216,139,.25)}
-    .hb-brand span span{color:#40d28e}
-    .hb-links{display:flex;gap:22px;align-items:center;flex-wrap:wrap;justify-content:center;font-size:14px;color:#d6e7df}
-    .hb-links a{transition:.2s}.hb-links a:hover{color:#62e6a5;transform:translateY(-1px)}
-    .hb-navbtn{padding:11px 16px;border:1px solid rgba(255,255,255,.16);border-radius:12px;background:rgba(255,255,255,.06);font-weight:700}
-
-    .hero-new{position:relative;max-width:1280px;margin:auto;padding:72px 5% 45px;display:grid;grid-template-columns:1.05fr .95fr;gap:55px;align-items:center}
-    .hero-new:before,.hero-new:after{content:"";position:absolute;border-radius:50%;filter:blur(2px);pointer-events:none;opacity:.55}
-    .hero-new:before{width:260px;height:260px;left:-120px;top:60px;background:radial-gradient(circle,rgba(27,193,116,.22),transparent 70%);animation:floatOrb 8s ease-in-out infinite}
-    .hero-new:after{width:320px;height:320px;right:-150px;bottom:-120px;background:radial-gradient(circle,rgba(80,220,161,.18),transparent 70%);animation:floatOrb 10s ease-in-out infinite reverse}
-    .hero-copy-new{position:relative;z-index:2}
-    .eyebrow-new{display:inline-flex;align-items:center;gap:8px;color:#0e9359;font-weight:700;background:#e9f8f0;border:1px solid #d2eee0;padding:8px 12px;border-radius:999px;font-size:14px;box-shadow:0 8px 24px rgba(19,165,104,.08)}
-    .hero-copy-new h1{font-size:clamp(42px,5.4vw,72px);line-height:1.07;letter-spacing:-2px;margin:20px 0 18px}
-    .hero-copy-new h1 strong{color:var(--green);position:relative}
-    .hero-copy-new h1 strong:after{content:"";position:absolute;left:0;bottom:-8px;width:78%;height:8px;border-radius:99px;background:linear-gradient(90deg,#2ac37f,transparent);opacity:.45;animation:growLine 1.3s ease both}
-    .hero-copy-new p{font-size:20px;line-height:1.85;color:#66776f;max-width:760px}
-    .hero-actions-new{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0}
-    .cta-new,.cta-outline{display:inline-flex;align-items:center;gap:10px;padding:13px 18px;border-radius:13px;font-weight:700;transition:.25s}
-    .cta-new{background:linear-gradient(135deg,#16aa69,#0f8b57);color:#fff;box-shadow:0 14px 30px rgba(17,145,88,.22)}
-    .cta-new:hover{transform:translateY(-3px);box-shadow:0 20px 34px rgba(17,145,88,.28)}
-    .cta-outline{border:1px solid var(--line);background:#fff;color:#1f4034}.cta-outline:hover{transform:translateY(-2px);border-color:#a8d8bf}
-    .trust-new{display:flex;gap:10px;flex-wrap:wrap;color:#64756e;font-size:13px}
-    .trust-new span{padding:8px 11px;border:1px solid var(--line);background:#fff;border-radius:10px}
-
-    .hero-visual-new{position:relative;min-height:500px}
-    .photo-stage{position:relative;height:100%;min-height:500px;border-radius:34px;overflow:hidden;background:#dbeae2;box-shadow:0 30px 80px rgba(16,48,37,.16);isolation:isolate}
-    .photo-stage:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(2,17,12,.76));z-index:2}
-    .photo-stage img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.03);animation:slowZoom 12s ease-in-out infinite alternate}
-    .stage-overlay{position:absolute;left:24px;right:24px;bottom:22px;z-index:3;color:#fff}
-    .stage-overlay h3{font-size:32px;line-height:1.2;margin:0 0 6px}.stage-overlay p{margin:0;color:#dcebe5;line-height:1.65}
-    .floating-stat{position:absolute;z-index:5;top:24px;right:24px;background:rgba(10,35,27,.72);backdrop-filter:blur(12px);color:#fff;border:1px solid rgba(255,255,255,.14);padding:13px 14px;border-radius:16px;display:flex;align-items:center;gap:10px;box-shadow:0 18px 35px rgba(0,0,0,.18);animation:bob 4s ease-in-out infinite}
-    .floating-stat b{display:block;font:800 18px Inter,sans-serif}.floating-stat span{font-size:12px;color:#b9d4c8}
-    .mini-photo{position:absolute;z-index:6;width:165px;height:120px;object-fit:cover;border:6px solid #fff;border-radius:18px;box-shadow:0 20px 40px rgba(7,29,21,.2)}
-    .mini-1{left:-25px;bottom:28px;transform:rotate(-4deg);animation:tiltA 5s ease-in-out infinite}
-    .mini-2{right:-28px;bottom:118px;transform:rotate(4deg);animation:tiltB 5.5s ease-in-out infinite}
-    .photo-chip{position:absolute;z-index:7;left:20px;top:20px;background:#fff;color:#0f8a56;padding:8px 11px;border-radius:999px;font-size:12px;font-weight:700;box-shadow:0 10px 28px rgba(0,0,0,.13)}
-
-    .impact-new{max-width:1120px;margin:10px auto 55px;padding:12px 16px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;background:#0e2a21;border:1px solid #214a3b;border-radius:24px;box-shadow:0 20px 55px rgba(14,42,33,.16)}
-    .impact-new div{padding:20px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
-    .impact-new div:last-child{border-right:0}.impact-new b{display:block;color:#74e6af;font:800 28px Inter,sans-serif}.impact-new span{color:#c7dbd3;font-size:14px}
-
-    .section-new{max-width:1220px;margin:auto;padding:78px 5%}
-    .section-head-new{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:34px}
-    .section-head-new h2{font-size:42px;line-height:1.15;margin:8px 0}.section-head-new p{max-width:520px;color:#6d7c75;line-height:1.8}
-    .services-new{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-    .s-card{position:relative;padding:24px;background:rgba(255,255,255,.84);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:.28s;box-shadow:0 12px 30px rgba(23,72,51,.05)}
-    .s-card:before{content:"";position:absolute;width:100px;height:100px;border-radius:50%;right:-35px;top:-35px;background:rgba(28,178,108,.07);transition:.3s}.s-card:hover:before{transform:scale(1.5)}
-    .s-card:hover{transform:translateY(-7px);box-shadow:0 24px 50px rgba(22,77,53,.12);border-color:#acd8be}
-    .s-icon{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:28px;background:#ecf9f2;border:1px solid #d9f0e2;margin-bottom:15px}.s-card h3{font-size:21px;margin:0 0 9px}.s-card p{color:#718079;line-height:1.7;margin:0 0 16px;min-height:98px}.s-card a{color:#0e9259;font-weight:700;font-size:14px}
-    .s-card.highlight{border:2px solid #34b77b;background:linear-gradient(180deg,#ffffff,#f5fcf8)}
-
-    .story-new{display:grid;grid-template-columns:1fr 1.15fr;gap:30px;align-items:center}
-    .story-copy{padding-right:10px}.story-copy h2{font-size:40px;line-height:1.2;margin:12px 0}.story-copy p{color:#6d7d75;line-height:1.85;font-size:17px}
-    .story-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}.story-list div{padding:13px;border:1px solid var(--line);background:#fff;border-radius:14px;font-size:14px}.story-list b{color:#0d8e56}
-    .story-images{display:grid;grid-template-columns:1.35fr .85fr;grid-template-rows:210px 170px;gap:14px}.story-images img{width:100%;height:100%;object-fit:cover;border-radius:20px;box-shadow:0 18px 45px rgba(18,57,43,.11)}.story-images .big{grid-row:span 2}
-
-    .campaign-new{background:linear-gradient(135deg,#0e3024,#164838);color:#fff;border-radius:28px;padding:34px;display:grid;grid-template-columns:1fr .85fr;gap:25px;align-items:center;box-shadow:0 25px 60px rgba(14,48,36,.18)}
-    .campaign-new h2{font-size:40px;margin:8px 0 12px}.campaign-new p{color:#c2d7ce;line-height:1.8}.campaign-progress{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:24px}.progress-top{display:flex;justify-content:space-between;color:#dcebe5;font-size:13px}.progress-bar{height:10px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin:12px 0 18px}.progress-bar i{display:block;width:68%;height:100%;background:linear-gradient(90deg,#46e39e,#11aa68);border-radius:99px;animation:progressIn 1.7s ease both}.amounts{display:flex;justify-content:space-between;font-size:14px;color:#d6e8e0}.amounts b{font-size:22px;color:#fff}
-
-    .join-new{margin-top:20px;display:flex;align-items:center;justify-content:space-between;gap:28px;padding:34px;border-radius:25px;background:#eaf8f0;border:1px solid #d6efe1}.join-new h2{font-size:34px;margin:6px 0}.join-new p{color:#668077;margin:0;line-height:1.7;max-width:650px}
-
-    .hb-footer{margin-top:50px;background:#092118;color:#dae9e3;padding:50px 5% 24px}.footer-grid{max-width:1220px;margin:auto;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:30px}.hb-footer .hb-brand{color:#fff}.hb-footer p{color:#9eb7ad;line-height:1.8}.hb-footer h4{margin:0 0 14px;font-size:16px}.hb-footer a{color:#afc6bd;font-size:14px;display:block;margin:8px 0}.hb-footer a:hover{color:#5ee4a4}.footer-bottom{max-width:1220px;margin:30px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;gap:15px;color:#8fa9a0;font-size:12px}
-
-    .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}.reveal.in{opacity:1;transform:none}
-    .pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#28bf7a;box-shadow:0 0 0 0 rgba(40,191,122,.6);animation:pulseDot 2s infinite}
-    .to-top{position:fixed;right:20px;bottom:20px;z-index:40;width:46px;height:46px;border-radius:50%;border:1px solid #cde8d8;background:#fff;color:#0c8c56;box-shadow:0 14px 28px rgba(12,76,48,.16);cursor:pointer;font-size:20px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s}.to-top.show{opacity:1;transform:none;pointer-events:auto}
-
-    @keyframes floatOrb{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(15px,-18px,0)}}
-    @keyframes growLine{from{width:0}to{width:78%}}
-    @keyframes slowZoom{from{transform:scale(1.03)}to{transform:scale(1.11)}}
-    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-    @keyframes tiltA{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(-2deg) translateY(-8px)}}
-    @keyframes tiltB{0%,100%{transform:rotate(4deg) translateY(0)}50%{transform:rotate(6deg) translateY(-8px)}}
-    @keyframes progressIn{from{width:0}to{width:68%}}
-    @keyframes pulseDot{0%{box-shadow:0 0 0 0 rgba(40,191,122,.55)}70%{box-shadow:0 0 0 12px rgba(40,191,122,0)}100%{box-shadow:0 0 0 0 rgba(40,191,122,0)}}
-    @media(max-width:1050px){.hb-links{display:none}.hero-new{grid-template-columns:1fr}.hero-visual-new{min-height:430px}.photo-stage{min-height:430px}.services-new{grid-template-columns:repeat(2,1fr)}.story-new,.campaign-new{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.impact-new{grid-template-columns:1fr 1fr}.impact-new div:nth-child(2){border-right:0}.impact-new div:nth-child(3){border-top:1px solid rgba(255,255,255,.08)}}
-    @media(max-width:650px){.hb-nav{padding:11px 4%}.hb-navbtn{padding:9px 12px;font-size:13px}.hero-new{padding:50px 5% 35px}.hero-copy-new h1{letter-spacing:-1px}.hero-copy-new p{font-size:17px}.hero-visual-new,.photo-stage{min-height:340px}.floating-stat{top:14px;right:14px}.mini-photo{width:125px;height:92px}.mini-1{left:8px;bottom:16px}.mini-2{right:8px;bottom:88px}.section-new{padding:60px 5%}.section-head-new{display:block}.section-head-new h2{font-size:32px}.services-new{grid-template-columns:1fr}.story-images{grid-template-columns:1fr 1fr;grid-template-rows:180px 140px}.story-images .big{grid-column:span 2;grid-row:auto}.impact-new{margin-left:5%;margin-right:5%;grid-template-columns:1fr 1fr}.impact-new div{border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}.impact-new div:nth-last-child(-n+2){border-bottom:0}.campaign-new{padding:26px}.campaign-new h2{font-size:31px}.join-new{margin-left:5%;margin-right:5%;display:block;padding:28px}.join-new h2{font-size:29px}.footer-grid{grid-template-columns:1fr}.footer-bottom{display:block}.footer-bottom span{display:block;margin-top:8px}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="HelpBD — মানুষের পাশে মানুষ। রক্তদান, আর্থিক সহায়তা, খাদ্য, চিকিৎসা, জরুরি সহায়তা, আইনসেবা ও স্বেচ্ছাসেবী নেটওয়ার্ক।">
+<title>HelpBD — মানুষের পাশে মানুষ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+:root{--green:#18a86b;--green2:#0c7f4e;--dark:#092219;--ink:#153128;--muted:#71817b;--bg:#f7fbf8;--card:#fff;--line:#dfece5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Hind Siliguri',sans-serif;overflow-x:hidden}a{text-decoration:none;color:inherit}
+.hb-nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 5%;background:rgba(7,29,21,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.08);color:#fff}.hb-brand{display:flex;align-items:center;gap:10px;font:800 23px Inter,sans-serif}.hb-brand img{width:40px;height:40px;border-radius:12px;object-fit:cover;box-shadow:0 8px 24px rgba(43,215,140,.23)}.hb-brand span span{color:#4fe0a0}.hb-links{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:14px;color:#d7e8e0}.hb-links a{transition:.25s}.hb-links a:hover{color:#6cebb0;transform:translateY(-2px)}.hb-navbtn{padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#18aa6a,#0e8c57);font-weight:700;box-shadow:0 10px 25px rgba(12,138,84,.28)}
+.hero{max-width:1280px;margin:auto;padding:72px 5% 44px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}.hero-copy{animation:rise .8s ease both}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#0f915a;background:#eaf8f0;border:1px solid #d4eee0;padding:8px 12px;border-radius:999px;font-weight:700;font-size:14px}.dot{width:8px;height:8px;border-radius:50%;background:#2cc37e;animation:pulse 2s infinite}.hero h1{font-size:clamp(42px,5.5vw,72px);line-height:1.05;letter-spacing:-2px;margin:20px 0 16px}.hero h1 strong{color:var(--green);position:relative}.hero h1 strong:after{content:"";position:absolute;left:0;bottom:-8px;width:72%;height:7px;border-radius:10px;background:linear-gradient(90deg,#2bc27e,transparent);animation:grow 1.2s ease both}.hero p{font-size:19px;line-height:1.85;color:#65756e;max-width:740px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0}.cta{display:inline-flex;align-items:center;gap:10px;padding:13px 18px;border-radius:13px;font-weight:700;transition:.25s}.cta.primary{background:linear-gradient(135deg,#18aa6a,#0e8c57);color:#fff;box-shadow:0 14px 30px rgba(11,134,80,.22)}.cta.primary:hover{transform:translateY(-3px)}.cta.secondary{background:#fff;border:1px solid var(--line)}.cta.secondary:hover{transform:translateY(-3px);border-color:#a8d8bf}.trust{display:flex;gap:9px;flex-wrap:wrap}.trust span{background:#fff;border:1px solid var(--line);padding:8px 10px;border-radius:10px;color:#66766f;font-size:13px}
+.hero-visual{position:relative;min-height:500px;animation:rise .9s .1s ease both}.hero-photo{position:relative;min-height:500px;border-radius:32px;overflow:hidden;box-shadow:0 28px 75px rgba(11,54,38,.17);background:#dceae3}.hero-photo img{width:100%;height:100%;object-fit:cover;display:block;animation:slowzoom 11s ease-in-out infinite alternate}.hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(4,23,16,.78))}.photo-tag{position:absolute;z-index:3;left:18px;top:18px;background:#fff;color:#0b8d56;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700;box-shadow:0 8px 22px rgba(0,0,0,.12)}.hero-caption{position:absolute;z-index:3;left:22px;right:22px;bottom:22px;color:#fff}.hero-caption h3{font-size:30px;line-height:1.18;margin:10px 0 5px}.hero-caption p{margin:0;color:#d7e7e1;line-height:1.65}.float-card{position:absolute;z-index:5;right:-18px;top:24px;display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:16px;background:rgba(8,36,26,.76);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.13);color:#fff;box-shadow:0 18px 38px rgba(0,0,0,.18);animation:bob 4s ease-in-out infinite}.float-card b{display:block;font:800 18px Inter,sans-serif}.float-card small{color:#b9d4ca}.mini{position:absolute;z-index:4;width:155px;height:112px;object-fit:cover;border:6px solid #fff;border-radius:17px;box-shadow:0 18px 35px rgba(9,41,29,.2)}.mini.one{left:-24px;bottom:22px;transform:rotate(-5deg);animation:bob2 5s ease-in-out infinite}.mini.two{right:-24px;bottom:95px;transform:rotate(5deg);animation:bob3 5.4s ease-in-out infinite}
+.impact{max-width:1120px;margin:6px auto 45px;padding:10px 14px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:var(--dark);border:1px solid #1f4a3b;border-radius:23px;box-shadow:0 18px 45px rgba(7,43,30,.12);animation:rise 1s .15s ease both}.impact div{padding:19px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}.impact div:last-child{border-right:0}.impact b{display:block;color:#76e5af;font:800 28px Inter,sans-serif}.impact span{color:#c9ddd5;font-size:14px}
+.section{max-width:1220px;margin:auto;padding:72px 5%}.section-head{display:flex;justify-content:space-between;align-items:end;gap:35px;margin-bottom:32px}.section-head h2{font-size:42px;line-height:1.15;margin:8px 0}.section-head p{max-width:530px;color:#6c7b74;line-height:1.8}.services{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.service{position:relative;padding:23px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 28px rgba(24,84,57,.05);transition:.28s;overflow:hidden}.service:before{content:"";position:absolute;width:105px;height:105px;border-radius:50%;right:-40px;top:-40px;background:rgba(24,168,107,.07);transition:.3s}.service:hover{transform:translateY(-7px);box-shadow:0 23px 48px rgba(24,84,57,.12);border-color:#addabf}.service:hover:before{transform:scale(1.5)}.icon{width:58px;height:58px;border-radius:17px;background:#ebf8f1;border:1px solid #d5eee0;display:grid;place-items:center;font-size:28px;margin-bottom:14px}.service h3{margin:0 0 8px;font-size:21px}.service p{margin:0 0 16px;min-height:92px;color:#718079;line-height:1.7}.service a{color:#0e9359;font-weight:700;font-size:14px}.service.highlight{border:2px solid #35b77e;background:linear-gradient(180deg,#fff,#f3fbf7)}
+.story{display:grid;grid-template-columns:1fr 1.1fr;gap:30px;align-items:center}.story-copy h2{font-size:40px;line-height:1.2;margin:12px 0}.story-copy p{font-size:17px;color:#6c7b74;line-height:1.85}.checks{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:22px 0}.checks div{padding:12px 13px;background:#fff;border:1px solid var(--line);border-radius:14px;font-size:14px}.checks b{color:#0e9158}.story-images{display:grid;grid-template-columns:1.35fr .85fr;grid-template-rows:210px 160px;gap:13px}.story-images img{width:100%;height:100%;object-fit:cover;border-radius:20px;box-shadow:0 15px 40px rgba(13,61,42,.12)}.story-images .big{grid-row:span 2}
+.campaign{background:linear-gradient(135deg,#0b2d20,#154837);color:#fff;border-radius:28px;padding:34px;display:grid;grid-template-columns:1fr .85fr;gap:24px;align-items:center;box-shadow:0 24px 55px rgba(8,48,32,.17)}.campaign h2{font-size:40px;line-height:1.15;margin:9px 0 11px}.campaign p{color:#c4d8cf;line-height:1.8}.progress{padding:23px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.11)}.progress-top{display:flex;justify-content:space-between;color:#dbeae4;font-size:13px}.bar{height:10px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin:11px 0 18px}.bar i{display:block;width:68%;height:100%;background:linear-gradient(90deg,#44df9b,#16aa69);border-radius:99px;animation:barin 1.6s ease both}.money{display:flex;justify-content:space-between;color:#d4e7df;font-size:14px}.money b{display:block;color:#fff;font-size:22px}
+.join{margin-top:20px;background:#eaf8f1;border:1px solid #d5eee0;border-radius:25px;padding:34px;display:flex;align-items:center;justify-content:space-between;gap:20px}.join h2{font-size:34px;margin:7px 0}.join p{max-width:680px;color:#61756c;line-height:1.75}
+.footer{margin-top:35px;background:#082219;color:#dceae4;padding:50px 5% 22px}.footer-grid{max-width:1220px;margin:auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px}.footer p{color:#9fb9ae;line-height:1.8}.footer h4{margin:0 0 12px}.footer a{display:block;margin:7px 0;color:#aec5bc;font-size:14px}.footer a:hover{color:#60e4a5}.bottom{max-width:1220px;margin:28px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;color:#8fa69e;font-size:12px}
+.to-top{position:fixed;right:19px;bottom:19px;z-index:40;width:46px;height:46px;border-radius:50%;border:1px solid #cae7d8;background:#fff;color:#0b8c56;box-shadow:0 13px 28px rgba(9,75,48,.18);cursor:pointer;font-size:19px;transition:.25s;opacity:0;transform:translateY(10px);pointer-events:none}.to-top.show{opacity:1;transform:none;pointer-events:auto}
+.reveal{opacity:1;transform:none;animation:sectionIn .8s ease both}.services .service:nth-child(2){animation-delay:.08s}.services .service:nth-child(3){animation-delay:.16s}.services .service:nth-child(4){animation-delay:.24s}.services .service:nth-child(5){animation-delay:.32s}.services .service:nth-child(6){animation-delay:.4s}.services .service:nth-child(7){animation-delay:.48s}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}@keyframes sectionIn{from{opacity:.25;transform:translateY(18px)}to{opacity:1;transform:none}}@keyframes slowzoom{from{transform:scale(1.03)}to{transform:scale(1.1)}}@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}@keyframes bob2{0%,100%{transform:rotate(-5deg) translateY(0)}50%{transform:rotate(-3deg) translateY(-8px)}}@keyframes bob3{0%,100%{transform:rotate(5deg) translateY(0)}50%{transform:rotate(7deg) translateY(-7px)}}@keyframes grow{from{width:0}to{width:72%}}@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(44,195,126,.45)}70%{box-shadow:0 0 0 11px rgba(44,195,126,0)}}@keyframes barin{from{width:0}to{width:68%}}
+@media(max-width:1000px){.hb-links{display:none}.hero{grid-template-columns:1fr}.services{grid-template-columns:repeat(2,1fr)}.story,.campaign{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.impact{grid-template-columns:1fr 1fr}.impact div:nth-child(2){border-right:0}.impact div:nth-child(3){border-top:1px solid rgba(255,255,255,.08)}.float-card{right:12px}}
+@media(max-width:650px){.hb-nav{padding:10px 4%}.hb-brand{font-size:19px}.hb-brand img{width:36px;height:36px}.hb-navbtn{padding:9px 12px;font-size:13px}.hero{padding:48px 5% 28px}.hero h1{font-size:42px;letter-spacing:-1px}.hero p{font-size:17px}.hero-visual,.hero-photo{min-height:360px}.mini{width:120px;height:88px}.mini.one{left:6px;bottom:12px}.mini.two{right:6px;bottom:74px}.float-card{top:12px;right:12px}.impact{margin:4px 5% 28px}.section{padding:58px 5%}.section-head{display:block}.section-head h2{font-size:32px}.services{grid-template-columns:1fr}.story-images{grid-template-columns:1fr 1fr;grid-template-rows:170px 130px}.story-images .big{grid-column:span 2;grid-row:auto}.checks{grid-template-columns:1fr}.campaign{padding:26px}.campaign h2{font-size:31px}.join{margin-left:5%;margin-right:5%;display:block;padding:28px}.join h2{font-size:29px}.footer-grid{grid-template-columns:1fr}.bottom{display:block}.bottom span{display:block;margin-top:8px}}
+</style>
 </head>
 <body>
-  <header class="hb-nav">
-    <a class="hb-brand" href="index.html"><img src="logo.svg" alt="HelpBD logo"><span>Help<span>BD</span></span></a>
-    <nav class="hb-links">
-      <a href="#services">সেবাসমূহ</a><a href="blood.html">রক্তদান</a><a href="emergency.html">জরুরি সহায়তা</a><a href="donation.html">আর্থিক সহায়তা</a><a href="legal.html">⚖️ আইনসেবা</a><a href="volunteer.html">স্বেচ্ছাসেবী</a>
-    </nav>
-    <a class="hb-navbtn" href="support.html">সাহায্য করুন ♥</a>
-  </header>
+<header class="hb-nav">
+  <a class="hb-brand" href="index.html"><img src="logo.svg" alt="HelpBD logo"><span>Help<span>BD</span></span></a>
+  <nav class="hb-links">
+    <a href="#services">সেবাসমূহ</a><a href="blood.html">রক্তদান</a><a href="emergency.html">জরুরি সহায়তা</a><a href="donation.html">আর্থিক সহায়তা</a><a href="legal.html">⚖️ আইনসেবা</a><a href="volunteer.html">স্বেচ্ছাসেবী</a>
+  </nav>
+  <a class="hb-navbtn" href="support.html">সাহায্য করুন ♥</a>
+</header>
 
-  <main>
-    <section class="hero-new">
-      <div class="hero-copy-new reveal">
-        <span class="eyebrow-new"><span class="pulse-dot"></span> ❤️ মানুষের পাশে মানুষ</span>
-        <h1>একটি ছোট সাহায্য,<br><strong>একটি জীবন বদলে দিতে পারে।</strong></h1>
-        <p>রক্তদান, চিকিৎসা, খাবার, আর্থিক সহায়তা, জরুরি সেবা, আইনসেবা ও স্বেচ্ছাসেবী উদ্যোগ—প্রয়োজনের সময়ে মানুষকে মানুষের পাশে নিয়ে আসাই HelpBD-এর লক্ষ্য।</p>
-        <div class="hero-actions-new"><a class="cta-new" href="support.html">আমি সাহায্য করতে চাই →</a><a class="cta-outline" href="#services">সেবাগুলো দেখুন ↓</a></div>
-        <div class="trust-new"><span>✓ সহজে আবেদন</span><span>✓ এলাকা নির্বাচন</span><span>✓ Admin review</span><span>✓ মানবিক নেটওয়ার্ক</span></div>
-      </div>
-      <div class="hero-visual-new reveal">
-        <div class="photo-stage">
-          <span class="photo-chip">🇧🇩 বাংলাদেশের মানুষের জন্য</span>
-          <img src="https://cdn.jagonews24.com/media/imgAllNew/BG/2023March/tcb-20250521200941-20250804173957.jpg" alt="বাংলাদেশে মানবিক সহায়তা ও খাদ্য বিতরণ">
-          <div class="floating-stat"><span>🤝</span><div><b>মানুষের পাশে</b><span>একসাথে সাহায্য করি</span></div></div>
-          <div class="stage-overlay"><div class="eyebrow-new" style="background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.16);color:#fff">HelpBD Impact</div><h3>সহায়তা হোক দ্রুত, সহজ এবং মানবিক</h3><p>প্রয়োজন → আবেদন → যাচাই → সহায়তা—একটি সহজ পথ।</p></div>
-        </div>
-        <img class="mini-photo mini-1" src="https://www.uttara.ac.bd/wp-content/uploads/2024/11/BTF-4-1024x576.jpeg" alt="বাংলাদেশে রক্তদান ক্যাম্প">
-        <img class="mini-photo mini-2" src="https://www.arabnews.com/sites/default/files/styles/n_670_395/public/2024/11/24/4548175-2063988891.jpg?itok=70xS5Enl" alt="বাংলাদেশে চিকিৎসা সহায়তার দৃশ্য">
-      </div>
-    </section>
-
-    <section class="impact-new reveal">
-      <div><b data-count="1250">1,250+</b><span>ডোনার</span></div><div><b data-count="480">480+</b><span>সহায়তা</span></div><div><b data-count="96">96</b><span>স্বেচ্ছাসেবী</span></div><div><b>24/7</b><span>জরুরি সহায়তা</span></div>
-    </section>
-
-    <section id="services" class="section-new">
-      <div class="section-head-new reveal"><div><div class="eyebrow-new">আমাদের সেবাসমূহ</div><h2>যেখানে সাহায্য দরকার,<br><span style="color:var(--green)">সেখানেই HelpBD</span></h2></div><p>প্রতিটি সেবার আলাদা page আছে। প্রয়োজন অনুযায়ী সঠিক সেবায় গিয়ে request, registration বা donor search শুরু করতে পারবেন।</p></div>
-      <div class="services-new">
-        <article class="s-card blood reveal"><div class="s-icon">🩸</div><h3>রক্তদান</h3><p>রক্তের গ্রুপ ও বিভাগ → জেলা → উপজেলা → ইউনিয়ন বেছে donor খুঁজুন বা জরুরি রক্তের আবেদন করুন।</p><a href="blood.html">রক্তদাতা খুঁজুন →</a></article>
-        <article class="s-card reveal"><div class="s-icon">💝</div><h3>আর্থিক সহায়তা</h3><p>চিকিৎসা, শিক্ষা ও জরুরি প্রয়োজনের সহায়তার আবেদন ও approved campaign দেখুন।</p><a href="donation.html">ক্যাম্পেইন দেখুন →</a></article>
-        <article class="s-card reveal"><div class="s-icon">🥘</div><h3>খাদ্য ও প্রয়োজনীয় সামগ্রী</h3><p>প্রয়োজনীয় খাদ্য ও সামগ্রী সহায়তার আবেদন এবং মানবিক উদ্যোগে অংশ নিন।</p><a href="food.html">খাদ্য সহায়তা →</a></article>
-        <article class="s-card reveal"><div class="s-icon">🏥</div><h3>চিকিৎসা সহায়তা</h3><p>চিকিৎসা সহায়তার আবেদন করুন এবং যাচাইকৃত সহায়তা উদ্যোগে যুক্ত হন।</p><a href="medical.html">চিকিৎসা সহায়তা →</a></article>
-        <article class="s-card reveal"><div class="s-icon">🚨</div><h3>জরুরি সহায়তা</h3><p>রক্ত, চিকিৎসা, অ্যাম্বুলেন্স, খাবার বা অন্য জরুরি প্রয়োজনের জন্য দ্রুত আবেদন পাঠান।</p><a href="emergency.html">জরুরি আবেদন →</a></article>
-        <article class="s-card highlight reveal"><div class="s-icon">⚖️</div><h3>আইনসেবা</h3><p>Registration করে message আকারে আপনার আইনি সমস্যাটি পাঠান এবং Admin reply পাওয়ার ব্যবস্থা ব্যবহার করুন।</p><a href="legal.html">আইনসেবা শুরু করুন →</a></article>
-        <article class="s-card reveal"><div class="s-icon">🤝</div><h3>স্বেচ্ছাসেবী</h3><p>সময়, দক্ষতা ও মানবিক উদ্যোগ দিয়ে HelpBD-এর volunteer network-এ যুক্ত হন।</p><a href="volunteer.html">স্বেচ্ছাসেবী হোন →</a></article>
-      </div>
-    </section>
-
-    <section class="section-new">
-      <div class="story-new">
-        <div class="story-copy reveal"><div class="eyebrow-new">🇧🇩 বাস্তব মানুষের জন্য</div><h2>সহায়তা শুধু একটি button নয়—<span style="color:var(--green)">একটি মানবিক সংযোগ।</span></h2><p>HelpBD এমনভাবে তৈরি হচ্ছে যাতে প্রয়োজনের সময়ে একজন মানুষ সহজে আবেদন করতে পারেন, আর সাহায্য করতে চাওয়া মানুষ সঠিক জায়গায় পৌঁছাতে পারেন।</p><div class="story-list"><div>✓ <b>এলাকাভিত্তিক</b><br>বিভাগ → জেলা → উপজেলা → ইউনিয়ন</div><div>✓ <b>সহজ আবেদন</b><br>কম ধাপে request submit</div><div>✓ <b>Admin review</b><br>যাচাই করে status update</div><div>✓ <b>একাধিক সেবা</b><br>একটি platform-এ সব</div></div><a class="cta-new" href="support.html">সহায়তার অংশ হোন →</a></div>
-        <div class="story-images reveal"><img class="big" src="https://pbs.twimg.com/media/Gi2UPShaYAATFj7.jpg" alt="বাংলাদেশে স্বেচ্ছায় রক্তদান"><img src="https://www.uttara.ac.bd/wp-content/uploads/2024/11/BTF-4-1024x576.jpeg" alt="রক্তদান ক্যাম্প"><img src="https://ampifire.com/files/uploaded_images/ec49341a1d38a307b871b0cec3216d56.jpg" alt="কমিউনিটি খাদ্য সহায়তা"></div>
-      </div>
-    </section>
-
-    <section class="section-new">
-      <div class="campaign-new reveal"><div><div class="eyebrow-new" style="background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.15);color:#79e6b0">💝 একটি উদ্যোগ, অনেক মানুষের আশা</div><h2>কেউ যেন প্রয়োজনের সময় একা না থাকে।</h2><p>আর্থিক সহায়তা campaign, খাদ্য সহায়তা, চিকিৎসা বা জরুরি request—আপনার সামান্য সহায়তাও কারও জন্য বড় হয়ে উঠতে পারে।</p><a class="lightbtn" href="donation.html">Campaign দেখুন →</a></div><div class="campaign-progress"><div class="progress-top"><span>একটি sample impact view</span><b>68%</b></div><div class="progress-bar"><i></i></div><div class="amounts"><span>সংগৃহীত<br><b>৳ 2,18,600</b></span><span>লক্ষ্য<br><b>৳ 3,20,000</b></span></div></div></div>
-    </section>
-
-    <section class="section-new"><div class="join-new reveal"><div><div class="eyebrow-new">🤝 আমাদের সঙ্গে থাকুন</div><h2>সাহায্য করার জন্য বড় কিছু দরকার নেই।</h2><p>আপনার রক্ত, সময়, দক্ষতা বা সামর্থ্য—যেকোনো একটি দিয়েই আপনি মানুষের পাশে দাঁড়াতে পারেন।</p></div><a class="cta-new" href="volunteer.html">স্বেচ্ছাসেবী হতে চাই →</a></div></section>
-  </main>
-
-  <footer class="hb-footer">
-    <div class="footer-grid">
-      <div><a class="hb-brand" href="index.html"><img src="logo.svg" alt="HelpBD logo"><span>Help<span>BD</span></span></a><p>মানুষের পাশে মানুষ। মানবিক সহায়তাকে সহজ, দ্রুত এবং আরও সংগঠিত করার একটি উদ্যোগ।</p></div>
-      <div><h4>দ্রুত লিংক</h4><a href="index.html">হোম</a><a href="blood.html">রক্তদান</a><a href="emergency.html">জরুরি সহায়তা</a><a href="donation.html">আর্থিক সহায়তা</a></div>
-      <div><h4>সেবাসমূহ</h4><a href="food.html">খাদ্য সহায়তা</a><a href="medical.html">চিকিৎসা</a><a href="legal.html">আইনসেবা</a><a href="volunteer.html">স্বেচ্ছাসেবী</a></div>
-      <div><h4>HelpBD</h4><a href="support.html">সাহায্য করুন</a><a href="admin-home.html">Admin</a><a href="legal.html">AinSeba</a><p style="font-size:12px">বাংলাদেশ 🇧🇩</p></div>
+<main>
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow"><span class="dot"></span> ❤️ মানুষের পাশে মানুষ</span>
+    <h1>একটি ছোট সাহায্য,<br><strong>একটি জীবন বদলে দিতে পারে।</strong></h1>
+    <p>রক্তদান, চিকিৎসা, খাবার, আর্থিক সহায়তা, জরুরি সেবা, আইনসেবা ও স্বেচ্ছাসেবী উদ্যোগ—প্রয়োজনের সময়ে মানুষকে মানুষের পাশে নিয়ে আসাই HelpBD-এর লক্ষ্য।</p>
+    <div class="hero-actions"><a class="cta primary" href="support.html">আমি সাহায্য করতে চাই →</a><a class="cta secondary" href="#services">সেবাগুলো দেখুন ↓</a></div>
+    <div class="trust"><span>✓ সহজে আবেদন</span><span>✓ এলাকা নির্বাচন</span><span>✓ Admin review</span><span>✓ মানবিক নেটওয়ার্ক</span></div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-photo">
+      <span class="photo-tag">🇧🇩 বাংলাদেশের মানুষের জন্য</span>
+      <img src="https://cdn.jagonews24.com/media/imgAllNew/BG/2023March/tcb-20250521200941-20250804173957.jpg" alt="বাংলাদেশে মানবিক সহায়তা ও খাদ্য বিতরণ" loading="eager">
+      <div class="hero-caption"><span class="eyebrow" style="background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.15);color:#fff">HelpBD Impact</span><h3>সহায়তা হোক দ্রুত, সহজ এবং মানবিক</h3><p>প্রয়োজন → আবেদন → যাচাই → সহায়তা</p></div>
     </div>
-    <div class="footer-bottom"><span>© 2026 HelpBD. Built for humanity.</span><span>❤️ People help people.</span></div>
-  </footer>
+    <div class="float-card"><span style="font-size:24px">🤝</span><div><b>মানুষের পাশে</b><small>একসাথে সাহায্য করি</small></div></div>
+    <img class="mini one" src="https://www.uttara.ac.bd/wp-content/uploads/2024/11/BTF-4-1024x576.jpeg" alt="বাংলাদেশে রক্তদান ক্যাম্প" loading="lazy">
+    <img class="mini two" src="https://www.arabnews.com/sites/default/files/styles/n_670_395/public/2024/11/24/4548175-2063988891.jpg?itok=70xS5Enl" alt="বাংলাদেশে চিকিৎসা সহায়তার দৃশ্য" loading="lazy">
+  </div>
+</section>
 
-  <button class="to-top" id="toTop" aria-label="উপরে যান">↑</button>
-  <script>
-    const revealEls=[...document.querySelectorAll('.reveal')];
-    const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-    revealEls.forEach(el=>io.observe(el));
-    const counts=[...document.querySelectorAll('[data-count]')];
-    const countIO=new IntersectionObserver(entries=>entries.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,target=Number(el.dataset.count||0),duration=1100,start=performance.now();const tick=t=>{const p=Math.min(1,(t-start)/duration),v=Math.floor(target*(1-Math.pow(1-p,3)));el.textContent=v.toLocaleString('en-US')+'+';if(p<1)requestAnimationFrame(tick)};requestAnimationFrame(tick);countIO.unobserve(el)}),{threshold:.7});
-    counts.forEach(c=>countIO.observe(c));
-    const top=document.getElementById('toTop');
-    window.addEventListener('scroll',()=>top.classList.toggle('show',scrollY>500),{passive:true});
-    top.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-  </script>
+<section class="impact"><div><b>1,250+</b><span>ডোনার</span></div><div><b>480+</b><span>সহায়তা</span></div><div><b>96</b><span>স্বেচ্ছাসেবী</span></div><div><b>24/7</b><span>জরুরি সহায়তা</span></div></section>
+
+<section id="services" class="section">
+  <div class="section-head"><div><div class="eyebrow">আমাদের সেবাসমূহ</div><h2>যেখানে সাহায্য দরকার,<br><span style="color:var(--green)">সেখানেই HelpBD</span></h2></div><p>প্রতিটি সেবার আলাদা page আছে। প্রয়োজন অনুযায়ী request, registration অথবা donor search শুরু করতে পারবেন।</p></div>
+  <div class="services">
+    <article class="service reveal"><div class="icon">🩸</div><h3>রক্তদান</h3><p>রক্তের গ্রুপ ও বিভাগ → জেলা → উপজেলা → ইউনিয়ন বেছে donor খুঁজুন বা জরুরি রক্তের আবেদন করুন।</p><a href="blood.html">রক্তদাতা খুঁজুন →</a></article>
+    <article class="service reveal"><div class="icon">💝</div><h3>আর্থিক সহায়তা</h3><p>চিকিৎসা, শিক্ষা ও জরুরি প্রয়োজনের সহায়তার আবেদন ও approved campaign দেখুন।</p><a href="donation.html">ক্যাম্পেইন দেখুন →</a></article>
+    <article class="service reveal"><div class="icon">🥘</div><h3>খাদ্য ও প্রয়োজনীয় সামগ্রী</h3><p>প্রয়োজনীয় খাদ্য ও সামগ্রী সহায়তার আবেদন এবং মানবিক উদ্যোগে অংশ নিন।</p><a href="food.html">খাদ্য সহায়তা →</a></article>
+    <article class="service reveal"><div class="icon">🏥</div><h3>চিকিৎসা সহায়তা</h3><p>চিকিৎসা সহায়তার আবেদন করুন এবং যাচাইকৃত সহায়তা উদ্যোগে যুক্ত হন।</p><a href="medical.html">চিকিৎসা সহায়তা →</a></article>
+    <article class="service reveal"><div class="icon">🚨</div><h3>জরুরি সহায়তা</h3><p>রক্ত, চিকিৎসা, অ্যাম্বুলেন্স, খাবার বা অন্য জরুরি প্রয়োজনের জন্য দ্রুত আবেদন পাঠান।</p><a href="emergency.html">জরুরি আবেদন →</a></article>
+    <article class="service highlight reveal"><div class="icon">⚖️</div><h3>আইনসেবা</h3><p>Registration করে message আকারে আপনার আইনি সমস্যাটি পাঠান এবং Admin reply পাওয়ার ব্যবস্থা ব্যবহার করুন।</p><a href="legal.html">আইনসেবা শুরু করুন →</a></article>
+    <article class="service reveal"><div class="icon">🤝</div><h3>স্বেচ্ছাসেবী</h3><p>সময়, দক্ষতা ও মানবিক উদ্যোগ দিয়ে HelpBD-এর volunteer network-এ যুক্ত হন।</p><a href="volunteer.html">স্বেচ্ছাসেবী হোন →</a></article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="story">
+    <div class="story-copy"><div class="eyebrow">🇧🇩 বাস্তব মানুষের জন্য</div><h2>সহায়তা শুধু একটি button নয়—<span style="color:var(--green)">একটি মানবিক সংযোগ।</span></h2><p>HelpBD এমনভাবে তৈরি হচ্ছে যাতে প্রয়োজনের সময়ে একজন মানুষ সহজে আবেদন করতে পারেন, আর সাহায্য করতে চাওয়া মানুষ সঠিক জায়গায় পৌঁছাতে পারেন।</p><div class="checks"><div>✓ <b>এলাকাভিত্তিক</b><br>বিভাগ → জেলা → উপজেলা → ইউনিয়ন</div><div>✓ <b>সহজ আবেদন</b><br>কম ধাপে request submit</div><div>✓ <b>Admin review</b><br>যাচাই করে status update</div><div>✓ <b>একাধিক সেবা</b><br>একটি platform-এ সব</div></div><a class="cta primary" href="support.html">সহায়তার অংশ হোন →</a></div>
+    <div class="story-images"><img class="big" src="https://pbs.twimg.com/media/Gi2UPShaYAATFj7.jpg" alt="বাংলাদেশে স্বেচ্ছায় রক্তদান" loading="lazy"><img src="https://www.uttara.ac.bd/wp-content/uploads/2024/11/BTF-4-1024x576.jpeg" alt="রক্তদান ক্যাম্প" loading="lazy"><img src="https://ampifire.com/files/uploaded_images/ec49341a1d38a307b871b0cec3216d56.jpg" alt="কমিউনিটি খাদ্য সহায়তা" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="campaign"><div><div class="eyebrow" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.14);color:#79e7b0">💝 একটি উদ্যোগ, অনেক মানুষের আশা</div><h2>কেউ যেন প্রয়োজনের সময় একা না থাকে।</h2><p>আর্থিক সহায়তা campaign, খাদ্য সহায়তা, চিকিৎসা বা জরুরি request—আপনার সামান্য সহায়তাও কারও জন্য বড় হয়ে উঠতে পারে।</p><a class="cta secondary" href="donation.html">Campaign দেখুন →</a></div><div class="progress"><div class="progress-top"><span>নমুনা impact view</span><b>68%</b></div><div class="bar"><i></i></div><div class="money"><span>সংগৃহীত<b>৳ 2,18,600</b></span><span>লক্ষ্য<b>৳ 3,20,000</b></span></div></div></div>
+  <div class="join"><div><div class="eyebrow">🤝 আমাদের সঙ্গে থাকুন</div><h2>সাহায্য করার জন্য বড় কিছু দরকার নেই।</h2><p>আপনার রক্ত, সময়, দক্ষতা বা সামর্থ্য—যেকোনো একটি দিয়েই আপনি মানুষের পাশে দাঁড়াতে পারেন।</p></div><a class="cta primary" href="volunteer.html">স্বেচ্ছাসেবী হতে চাই →</a></div>
+</section>
+</main>
+
+<footer class="footer"><div class="footer-grid"><div><a class="hb-brand" href="index.html"><img src="logo.svg" alt="HelpBD logo"><span>Help<span>BD</span></span></a><p>মানুষের পাশে মানুষ। মানবিক সহায়তাকে সহজ, দ্রুত এবং আরও সংগঠিত করার একটি উদ্যোগ।</p></div><div><h4>দ্রুত লিংক</h4><a href="index.html">হোম</a><a href="blood.html">রক্তদান</a><a href="emergency.html">জরুরি সহায়তা</a><a href="donation.html">আর্থিক সহায়তা</a></div><div><h4>সেবাসমূহ</h4><a href="food.html">খাদ্য সহায়তা</a><a href="medical.html">চিকিৎসা</a><a href="legal.html">আইনসেবা</a><a href="volunteer.html">স্বেচ্ছাসেবী</a></div><div><h4>HelpBD</h4><a href="support.html">সাহায্য করুন</a><a href="admin-home.html">Admin</a><a href="legal.html">AinSeba</a><p style="font-size:12px">বাংলাদেশ 🇧🇩</p></div></div><div class="bottom"><span>© 2026 HelpBD. Built for humanity.</span><span>❤️ People help people.</span></div></footer>
+
+<button class="to-top" id="toTop" aria-label="উপরে যান">↑</button>
+<script>
+const top=document.getElementById('toTop');
+window.addEventListener('scroll',()=>top.classList.toggle('show',window.scrollY>450),{passive:true});
+top.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
 </body>
 </html>
