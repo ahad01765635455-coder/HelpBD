@@ -2,18 +2,26 @@ package com.helpbd.admin
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentValues
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
-import android.view.View
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Base64
+import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : Activity() {
     private lateinit var webView: WebView
@@ -55,8 +63,9 @@ class MainActivity : Activity() {
             settings.setSupportMultipleWindows(false)
             settings.allowFileAccess = false
             settings.allowContentAccess = false
-            settings.userAgentString = settings.userAgentString + " HelpBD-Admin/1.0"
+            settings.userAgentString = settings.userAgentString + " HelpBD-Admin/1.1"
             setBackgroundColor(0xFFF3F7F5.toInt())
+            addJavascriptInterface(PdfDownloadBridge(), "AndroidDownload")
 
             webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
@@ -149,6 +158,39 @@ class MainActivity : Activity() {
     override fun onSaveInstanceState(outState: Bundle) {
         webView.saveState(outState)
         super.onSaveInstanceState(outState)
+    }
+
+    inner class PdfDownloadBridge {
+        @JavascriptInterface
+        fun savePdf(base64Pdf: String, fileName: String) {
+            try {
+                val bytes = Base64.decode(base64Pdf, Base64.DEFAULT)
+                val safeName = fileName.replace(Regex("[^A-Za-z0-9._-]"), "_").ifBlank { "HelpBD-Volunteers.pdf" }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val values = ContentValues().apply {
+                        put(MediaStore.Downloads.DISPLAY_NAME, safeName)
+                        put(MediaStore.Downloads.MIME_TYPE, "application/pdf")
+                        put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/HelpBD")
+                        put(MediaStore.Downloads.IS_PENDING, 1)
+                    }
+                    val uri = contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+                        ?: throw IllegalStateException("Could not create Downloads entry")
+                    contentResolver.openOutputStream(uri)?.use { it.write(bytes) }
+                    values.clear()
+                    values.put(MediaStore.Downloads.IS_PENDING, 0)
+                    contentResolver.update(uri, values, null, null)
+                } else {
+                    val dir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "HelpBD")
+                    if (!dir.exists()) dir.mkdirs()
+                    FileOutputStream(File(dir, safeName)).use { it.write(bytes) }
+                }
+
+                runOnUiThread { android.widget.Toast.makeText(this@MainActivity, "PDF Downloads/HelpBD ফোল্ডারে সংরক্ষণ হয়েছে", android.widget.Toast.LENGTH_LONG).show() }
+            } catch (e: Exception) {
+                runOnUiThread { android.widget.Toast.makeText(this@MainActivity, "PDF save failed: ${e.message}", android.widget.Toast.LENGTH_LONG).show() }
+            }
+        }
     }
 
     companion object {
