@@ -58,3 +58,8 @@ with check (true);
 grant usage on schema public to anon, authenticated;
 grant insert on table public.donor_applications to anon, authenticated;
 grant insert on table public.help_requests to anon, authenticated;
+
+-- Server-side admin API uses the Supabase service_role key.
+-- Keep public read access disabled; service_role bypasses RLS and also needs table privileges.
+grant select, insert, update, delete on table public.help_requests to service_role;
+grant select, insert, update, delete on table public.donor_applications to service_role;
