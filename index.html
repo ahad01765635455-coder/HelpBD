@@ -26,6 +26,10 @@
 @media(max-width:1000px){.hb-links{display:none}.hero{grid-template-columns:1fr}.services{grid-template-columns:repeat(2,1fr)}.story{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.float-card{right:12px}}
 @media(max-width:650px){.hb-nav{padding:10px 4%}.hb-brand{font-size:19px}.hb-brand img{width:36px;height:36px}.hb-navbtn{padding:9px 12px;font-size:13px}.hero{padding:48px 5% 28px}.hero h1{font-size:42px;letter-spacing:-1px}.hero p{font-size:17px}.hero-visual,.hero-photo{min-height:360px}.mini{width:120px;height:88px}.mini.one{left:6px;bottom:12px}.mini.two{right:6px;bottom:74px}.float-card{top:12px;right:12px}.section{padding:58px 5%}.section-head{display:block}.section-head h2{font-size:32px}.services{grid-template-columns:1fr}.story-images{grid-template-columns:1fr 1fr;grid-template-rows:170px 130px}.story-images .big{grid-column:span 2;grid-row:auto}.checks{grid-template-columns:1fr}.campaign{padding:26px}.campaign h2{font-size:31px}.join{margin-left:5%;margin-right:5%;display:block;padding:28px}.join h2{font-size:29px}.footer-grid{grid-template-columns:1fr}.bottom{display:block}.bottom span{display:block;margin-top:8px}}
 </style>
+
+<style id="home-campaigns-style">
+.home-campaigns-section .campaigns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.home-campaigns-section .campaign-card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 12px 30px rgba(24,84,57,.07);transition:.25s}.home-campaigns-section .campaign-card:hover{transform:translateY(-5px);box-shadow:0 20px 42px rgba(24,84,57,.12)}.home-campaigns-section .campaign-card>img{width:100%;height:220px;object-fit:cover;display:block}.home-campaigns-section .campaign-body{padding:21px}.home-campaigns-section .campaign-body h3{font-size:23px;margin:10px 0}.home-campaigns-section .campaign-body p{color:#66756e;line-height:1.7}.home-campaigns-section .service-pill{display:inline-block;padding:5px 10px;border-radius:20px;background:#e8f8f0;color:#087f4d;font-size:12px;font-weight:700}.home-campaigns-section .details-text{white-space:pre-wrap}.home-campaigns-section .help-btn{display:inline-block;margin-top:12px;background:#173a2f;color:#fff;padding:11px 14px;border-radius:10px;font-weight:700}.home-campaigns-section .video iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;margin-top:10px}.home-campaigns-section .empty{padding:28px;border:1px dashed #cad8d0;border-radius:14px;color:#78857f;text-align:center;grid-column:1/-1}@media(max-width:700px){.home-campaigns-section .campaigns{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <header class="hb-nav">
@@ -81,6 +85,14 @@
   <div class="campaign"><div><div class="eyebrow" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.14);color:#79e7b0">💝 একটি উদ্যোগ, অনেক মানুষের আশা</div><h2>কেউ যেন প্রয়োজনের সময় একা না থাকে।</h2><p>আর্থিক সহায়তা campaign, খাদ্য সহায়তা, চিকিৎসা বা জরুরি request—আপনার সামান্য সহায়তাও কারও জন্য বড় হয়ে উঠতে পারে।</p><a class="cta secondary" href="donation.html">Campaign দেখুন →</a></div></div>
   <div class="join"><div><div class="eyebrow">🤝 আমাদের সঙ্গে থাকুন</div><h2>সাহায্য করার জন্য বড় কিছু দরকার নেই।</h2><p>আপনার রক্ত, সময়, দক্ষতা বা সামর্থ্য—যেকোনো একটি দিয়েই আপনি মানুষের পাশে দাঁড়াতে পারেন।</p></div><a class="cta primary" href="volunteer.html">স্বেচ্ছাসেবী হতে চাই →</a></div>
 </section>
+
+<section class="section home-campaigns-section" id="campaigns-home">
+  <div class="section-head">
+    <div><span class="eyebrow">🤝 মানুষের পাশে মানুষ</span><h2>চলমান সহায়তার campaign</h2></div>
+    <p>Admin কর্তৃক অনুমোদিত বাস্তব campaign-গুলো এখানে স্বয়ংক্রিয়ভাবে দেখানো হবে। নতুন অনুমোদিত campaign হলে এটি নিজে থেকেই আপডেট হবে।</p>
+  </div>
+  <div id="home-campaigns" class="campaigns"></div>
+</section>
 </main>
 
 <footer class="footer"><div class="footer-grid"><div><a class="hb-brand" href="index.html"><img src="logo.svg" alt="HelpBD logo"><span>Help<span>BD</span></span></a><p>মানুষের পাশে মানুষ। মানবিক সহায়তাকে সহজ, দ্রুত এবং আরও সংগঠিত করার একটি উদ্যোগ।</p></div><div><h4>দ্রুত লিংক</h4><a href="index.html">হোম</a><a href="blood.html">রক্তদান</a><a href="emergency.html">জরুরি সহায়তা</a><a href="donation.html">আর্থিক সহায়তা</a></div><div><h4>সেবাসমূহ</h4><a href="food.html">খাদ্য সহায়তা</a><a href="medical.html">চিকিৎসা</a><a href="legal.html">আইনসেবা</a><a href="volunteer.html">স্বেচ্ছাসেবী</a></div><div><h4>HelpBD</h4><a href="support.html">সাহায্য করুন</a><a href="admin-home.html">Admin</a><a href="legal.html">AinSeba</a><p style="font-size:12px">বাংলাদেশ 🇧🇩</p></div></div><div class="bottom"><span>© 2026 HelpBD. Built for humanity.</span><span>❤️ People help people.</span></div></footer>
@@ -91,5 +103,5 @@ const top=document.getElementById('toTop');
 window.addEventListener('scroll',()=>top.classList.toggle('show',window.scrollY>450),{passive:true});
 top.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 </script>
-</body>
+<script src="campaigns.js"></script><script>loadApprovedCampaigns('home-campaigns');</script></body>
 </html>
