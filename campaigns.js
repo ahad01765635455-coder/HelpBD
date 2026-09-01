@@ -1,3 +1,5 @@
+const HELPBD_CONTACT_NUMBER = '01949127864';
+
 async function loadApprovedCampaigns(targetId='campaigns') {
   const target = document.getElementById(targetId);
   if (!target) return;
@@ -16,11 +18,11 @@ async function loadApprovedCampaigns(targetId='campaigns') {
       const m = yt.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/);
       const video = m ? `<div class="video"><iframe src="https://www.youtube.com/embed/${m[1]}" title="YouTube video" loading="lazy" allowfullscreen></iframe></div>` : '';
       const img = c.image_url ? `<img src="${escapeHtml(c.image_url)}" alt="${escapeHtml(c.title)}" loading="lazy">` : '';
-      return `<article class="campaign-card">${img}<div class="campaign-body"><span class="service-pill">${escapeHtml(c.service)}</span><h3>${escapeHtml(c.title)}</h3><p class="person">👤 ${escapeHtml(c.name)}</p><p>📍 ${escapeHtml([c.division,c.district,c.upazila,c.union_name].filter(Boolean).join(' / '))}</p>${c.amount ? `<p>💰 প্রয়োজন: <b>${escapeHtml(c.amount)} টাকা</b></p>` : ''}<p class="details-text">${escapeHtml(c.details)}</p>${video}<button class="help-btn contact-help" type="button" data-phone="${escapeHtml(c.phone)}">সহায়তার জন্য যোগাযোগ করুন</button></div></article>`;
+      return `<article class="campaign-card">${img}<div class="campaign-body"><span class="service-pill">${escapeHtml(c.service)}</span><h3>${escapeHtml(c.title)}</h3><p class="person">👤 ${escapeHtml(c.name)}</p><p>📍 ${escapeHtml([c.division,c.district,c.upazila,c.union_name].filter(Boolean).join(' / '))}</p>${c.amount ? `<p>💰 প্রয়োজন: <b>${escapeHtml(c.amount)} টাকা</b></p>` : ''}<p class="details-text">${escapeHtml(c.details)}</p>${video}<button class="help-btn contact-help" type="button" data-phone="${HELPBD_CONTACT_NUMBER}">সহায়তার জন্য যোগাযোগ করুন</button></div></article>`;
     }).join('');
     target.querySelectorAll('.contact-help').forEach(btn => {
       btn.addEventListener('click', () => {
-        const phone = btn.getAttribute('data-phone') || '';
+        const phone = btn.getAttribute('data-phone') || HELPBD_CONTACT_NUMBER;
         const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
         if (mobile) {
           window.location.href = `tel:${phone}`;
