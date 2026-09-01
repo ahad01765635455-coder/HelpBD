@@ -1,0 +1,66 @@
+name: Show approved campaigns on homepage
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'index.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inject:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Add homepage campaign section
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          if 'id="home-campaigns"' not in s:
+              section = '''
+<section class="section home-campaigns-section" id="campaigns-home">
+  <div class="section-head">
+    <div><span class="eyebrow">🤝 মানুষের পাশে মানুষ</span><h2>চলমান সহায়তার campaign</h2></div>
+    <p>Admin কর্তৃক অনুমোদিত বাস্তব campaign-গুলো এখানে স্বয়ংক্রিয়ভাবে দেখানো হবে। নতুন অনুমোদিত campaign হলে এটি নিজে থেকেই আপডেট হবে।</p>
+  </div>
+  <div id="home-campaigns" class="campaigns"></div>
+</section>
+'''
+              s = s.replace('</main>', section + '</main>', 1)
+
+          css = '''
+<style id="home-campaigns-style">
+.home-campaigns-section .campaigns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.home-campaigns-section .campaign-card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 12px 30px rgba(24,84,57,.07);transition:.25s}.home-campaigns-section .campaign-card:hover{transform:translateY(-5px);box-shadow:0 20px 42px rgba(24,84,57,.12)}.home-campaigns-section .campaign-card>img{width:100%;height:220px;object-fit:cover;display:block}.home-campaigns-section .campaign-body{padding:21px}.home-campaigns-section .campaign-body h3{font-size:23px;margin:10px 0}.home-campaigns-section .campaign-body p{color:#66756e;line-height:1.7}.home-campaigns-section .service-pill{display:inline-block;padding:5px 10px;border-radius:20px;background:#e8f8f0;color:#087f4d;font-size:12px;font-weight:700}.home-campaigns-section .details-text{white-space:pre-wrap}.home-campaigns-section .help-btn{display:inline-block;margin-top:12px;background:#173a2f;color:#fff;padding:11px 14px;border-radius:10px;font-weight:700}.home-campaigns-section .video iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;margin-top:10px}.home-campaigns-section .empty{padding:28px;border:1px dashed #cad8d0;border-radius:14px;color:#78857f;text-align:center;grid-column:1/-1}@media(max-width:700px){.home-campaigns-section .campaigns{grid-template-columns:1fr}}
+</style>
+'''
+          if 'id="home-campaigns-style"' not in s:
+              s = s.replace('</head>', css + '</head>', 1)
+
+          loader = '<script src="campaigns.js"></script><script>loadApprovedCampaigns(\'home-campaigns\');</script>'
+          if 'loadApprovedCampaigns(\'home-campaigns\')' not in s:
+              s = s.replace('</body>', loader + '</body>', 1)
+
+          p.write_text(s, encoding='utf-8')
+
+      - name: Commit homepage update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "Homepage already contains approved campaign section."
+            exit 0
+          fi
+          git commit -m "Show approved campaigns on HelpBD homepage"
+          git push
